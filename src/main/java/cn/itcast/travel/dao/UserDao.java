@@ -20,4 +20,17 @@ public interface UserDao {
      * @return
      */
     void insert(User user);
+
+    /**
+     * 根据激活码查询用户是否存在
+     * @param code
+     * @return
+     */
+    User findByCode(String code);
+
+    /**
+     * 更新激活状态
+     * @param user
+     */
+    void updateStatus(User user);
 }
