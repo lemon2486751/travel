@@ -33,4 +33,11 @@ public interface UserDao {
      * @param user
      */
     void updateStatus(User user);
+
+    /**
+     * 校验用户名密码
+     * @param user
+     * @return
+     */
+    User findByUsernameAndPassword(User user);
 }

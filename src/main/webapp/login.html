@@ -19,7 +19,19 @@
 	<!--导入jquery-->
 	<script src="js/jquery-3.3.1.js"></script>
 </head>
-
+<script>
+	$(function () {
+		$("#sub_login").click(function () {
+			$.post("login",$("#loginForm").serialize(),function (data) {
+				if (data.flag){
+				    location.href = "index.html";
+				} else {
+				    $("#errorMsg").html(data.errorMsg);
+				}
+            })
+        })
+    })
+</script>
 <body>
 <!--引入头部-->
 <div id="header"></div>
@@ -52,7 +64,7 @@
 					</script>
 			</div>
 			<div class="submit_btn">
-        				<button type="button">登录</button>
+        				<button type="button" id="sub_login">登录</button>
         				<div class="auto_login">
         					<input type="checkbox" name="" class="checkbox">
         					<span>自动登录</span>
