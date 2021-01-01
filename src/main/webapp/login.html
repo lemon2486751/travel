@@ -22,7 +22,7 @@
 <script>
 	$(function () {
 		$("#sub_login").click(function () {
-			$.post("login",$("#loginForm").serialize(),function (data) {
+			$.post("user/login",$("#loginForm").serialize(),function (data) {
 				if (data.flag){
 				    location.href = "index.html";
 				} else {

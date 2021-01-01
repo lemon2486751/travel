@@ -1,6 +1,6 @@
 <script>
     $(function () {
-        $.get("userFind",{},function (data) {
+        $.get("user/findOne",{},function (data) {
             var msg = "欢迎回来，"+ data.name
             $("#msg").html(msg);
         })
@@ -22,7 +22,7 @@
             	
                 <span id="msg"></span>
                 <a href="myfavorite.html" class="collection">我的收藏</a>
-                <a href="javascript:location.href='exit';">退出</a>
+                <a href="javascript:location.href='user/exit';">退出</a>
             </div>
         </div>
         <div class="header_wrap">
