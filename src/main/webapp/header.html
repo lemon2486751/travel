@@ -8,7 +8,7 @@
         $.get("category/findAll",{},function (cgs) {
             var lis = '<li class="nav-active"><a href="index.html">首页</a></li>';
             for (var i = 0; i < cgs.length; i++) {
-                lis += '<li><a href="route_list.html">'+cgs[i].cname+'</a></li>';
+                lis += '<li><a href="route_list.html?cid='+cgs[i].cid+'">'+cgs[i].cname+'</a></li>';
             }
             lis += '<li><a href="favoriterank.html">收藏排行榜</a></li>';
             $("#nav").html(lis);
