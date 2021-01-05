@@ -24,4 +24,11 @@ public interface RouteDao {
      * @return
      */
     int count(int cid,String rname);
+
+    /**
+     * 根据rid查询线路数据
+     * @param rid
+     * @return
+     */
+    Route findByRid(int rid);
 }

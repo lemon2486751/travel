@@ -1,6 +1,7 @@
 package cn.itcast.travel.web.servlet;
 
 import cn.itcast.travel.domain.PageBean;
+import cn.itcast.travel.domain.Route;
 import cn.itcast.travel.service.RouteService;
 import cn.itcast.travel.service.impl.RouteServiceImpl;
 
@@ -45,5 +46,13 @@ public class RouteServlet extends BaseServlet {
         }
         PageBean bean = service.findAll(cid, currentPage, pageSize, rname);
         writeValue(bean, response);
+    }
+
+    public void findDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String rid = request.getParameter("rid");
+        if (rid!=null&&rid.length()>0){
+            Route route = service.findDetail(Integer.parseInt(rid));
+            writeValue(route,response);
+        }
     }
 }
