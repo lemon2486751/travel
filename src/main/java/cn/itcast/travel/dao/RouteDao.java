@@ -16,12 +16,12 @@ public interface RouteDao {
      * @param pageSize
      * @return
      */
-    List<Route> findList(int cid, int start, int pageSize);
+    List<Route> findList(int cid, int start, int pageSize,String rname);
 
     /**
      * 查询当前分类下所有线路
      * @param cid
      * @return
      */
-    int count(int cid);
+    int count(int cid,String rname);
 }

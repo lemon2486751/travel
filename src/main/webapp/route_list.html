@@ -9,14 +9,19 @@
     <link rel="stylesheet" href="css/search.css">
     <script src="js/jquery-3.3.1.js"></script>
 </head>
+<script src="js/getParameter.js"></script>
 <script>
     $(function () {
-        var cid = (location.search).split("=")[1];
-        load(cid);
+        var cid = getParameter("cid");
+        var rname = getParameter("rname");
+        if (rname) {
+            rname = window.decodeURIComponent(rname);
+        }
+        load(cid, null, rname);
     });
 
-    function load(cid, currentPage) {
-        $.get("route/findAll", {cid: cid, currentPage: currentPage}, function (pg) {
+    function load(cid, currentPage, rname) {
+        $.get("route/findAll", {cid: cid, currentPage: currentPage, rname: rname}, function (pg) {
             //列表数据展示
             var lis = "";
             //生成每页中单个信息的数据
@@ -74,22 +79,22 @@
                 before = 1;
             }
             //上一页按钮
-            var prePage = '<li class="threeword" onclick="javascript:load(' + cid + ',' + before + ')"><a href="javascript:void(0);">上一页</a></li>';
-            var first = '<li onclick="javascript:load(' + cid + ')"><a href="javascript:void(0);">首页</a></li>';
+            var prePage = '<li class="threeword" onclick="javascript:load(' + cid + ',' + before + ',\'' + rname + '\')"><a href="javascript:void(0);">上一页</a></li>';
+            var first = '<li onclick="javascript:load(' + cid + ',1,\'' + rname + '\')"><a href="javascript:void(0);">首页</a></li>';
             var after = currentPage + 1;
             if (after > pg.totalPage) {
                 after = pg.total;
             }
-            var nextPage = '<li class="threeword" onclick="javascript:load(' + cid + ',' + after + ')"><a href="javascript:void(0);">下一页</a></li>';
-            var last = '<li class="threeword" onclick="javascript:load(' + cid + ',' + pg.totalPage + ')"><a href="javascript:void(0);">末页</a></li>';
+            var nextPage = '<li class="threeword" onclick="javascript:load(' + cid + ',' + after + ',\'' + rname + '\')"><a href="javascript:void(0);">下一页</a></li>';
+            var last = '<li class="threeword" onclick="javascript:load(' + cid + ',' + pg.totalPage + ',\'' + rname + '\')"><a href="javascript:void(0);">末页</a></li>';
             //页码拼接
             pageStr += first;
             pageStr += prePage;
             for (var i = begin; i <= end; i++) {
                 if (i == pg.currentPage) {
-                    pageStr += '<li class="curPage" onclick="javascipt:load(' + cid + ',' + i + ')"><a href="javascript:void(0);">' + i + '</a></li>';
+                    pageStr += '<li class="curPage" onclick="javascipt:load(' + cid + ',' + i + ',\'' + rname + '\')"><a href="javascript:void(0);">' + i + '</a></li>';
                 } else {
-                    pageStr += '<li onclick="javascipt:load(' + cid + ',' + i + ')"><a href="javascript:void(0);">' + i + '</a></li>';
+                    pageStr += '<li onclick="javascipt:load(' + cid + ',' + i + ',\'' + rname + '\')"><a href="javascript:void(0);">' + i + '</a></li>';
                 }
             }
             pageStr += nextPage;

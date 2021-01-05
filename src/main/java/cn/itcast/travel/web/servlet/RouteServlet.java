@@ -22,8 +22,13 @@ public class RouteServlet extends BaseServlet {
         String cidStr = request.getParameter("cid");
         String currentPageStr = request.getParameter("currentPage");
         String pageSizeStr = request.getParameter("pageSize");
+        String rname = request.getParameter("rname");
+        //转码
+        if (rname != null && rname.length() > 0 && !"null".equals(rname)) {
+            rname = new String(rname.getBytes("iso-8859-1"), "utf-8");
+        }
         int cid = 0;
-        if (cidStr != null && cidStr.length() > 0) {
+        if (cidStr != null && cidStr.length() > 0 && !"null".equals(cidStr)) {
             cid = Integer.parseInt(cidStr);
         }
         int currentPage = 0;
@@ -38,7 +43,7 @@ public class RouteServlet extends BaseServlet {
         } else {
             pageSize = 5;
         }
-        PageBean bean = service.findAll(cid,currentPage,pageSize);
-        writeValue(bean,response);
+        PageBean bean = service.findAll(cid, currentPage, pageSize, rname);
+        writeValue(bean, response);
     }
 }

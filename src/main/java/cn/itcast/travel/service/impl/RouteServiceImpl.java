@@ -16,14 +16,14 @@ public class RouteServiceImpl implements RouteService {
     private RouteDao dao = new RouteDaoImpl();
 
     @Override
-    public PageBean findAll(int cid, int currentPage, int pageSize) {
+    public PageBean findAll(int cid, int currentPage, int pageSize, String rname) {
         PageBean pageBean = new PageBean();
         pageBean.setCurrentPage(currentPage);
         pageBean.setPageSize(pageSize);
         int start = (currentPage - 1) * pageSize;
-        List<Route> routeList = dao.findList(cid, start, pageSize);
+        List<Route> routeList = dao.findList(cid, start, pageSize, rname);
         pageBean.setRouteList(routeList);
-        int total = dao.count(cid);
+        int total = dao.count(cid, rname);
         pageBean.setTotal(total);
         pageBean.setTotalPage(total % pageSize == 0 ? total / pageSize : total / pageSize + 1);
         return pageBean;
