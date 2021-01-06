@@ -160,9 +160,8 @@
                 '    <div class="pros_price">\n' +
                 '        <p class="price"><strong>¥' + data.price + '</strong><span>起</span></p>\n' +
                 '        <p class="collect">\n' +
-                '            <a class="btn"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a\n' +
-                '            <a class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>\n' +
-                '            <span>已收藏100次</span>\n' +
+                '            <a class="btn" id="favorite" onclick="insertFavorite()"><i class="glyphicon glyphicon-heart-empty" ></i>点击收藏</a\n' +
+                '            <span>已收藏' + data.count + '次</span>\n' +
                 '        </p>\n' +
                 '    </div> ';
             $("#detail").html(detail);
@@ -218,13 +217,13 @@
             imgs += '<dt><img alt="" class="big_img" src="' + imgList[0].bigPic + '"></dt>';
             imgs += '<dd><a class="up_img up_img_disable"></a>';
             for (var i = 0; i < imgList.length; i++) {
-                if (i>=4){
-                    imgs+='<a title="" class="little_img" style="display:none;"\n' +
+                if (i >= 4) {
+                    imgs += '<a title="" class="little_img" style="display:none;"\n' +
                         '     data-bigpic="' + imgList[i].bigPic + '">\n' +
                         '     <img src="' + imgList[i].smallPic + '">\n' +
                         ' </a>';
                 } else {
-                    imgs+='<a title="" class="little_img"\n' +
+                    imgs += '<a title="" class="little_img"\n' +
                         '     data-bigpic="' + imgList[i].bigPic + '">\n' +
                         '     <img src="' + imgList[i].smallPic + '">\n' +
                         ' </a>';
@@ -233,8 +232,39 @@
             imgs += '<a class="down_img down_img_disable" style="margin-bottom: 0;"></a></dd>';
             $("#imgs").html(imgs);
             goImg();
+
+            //查询是否已收藏，已收藏将按钮置灰
+            $.get("route/isFavorite", {rid: rid}, function (data) {
+                //已收藏
+                if (data) {
+                    // <a class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>\n' +
+                    //添加置灰属性
+                    $("#favorite").addClass("already");
+                    $("#favorite").attr("disabled", "disabled")
+                    //移除点击事件
+                    $("#favorite").removeAttr("onclick");
+                }
+            })
         })
-    })
+    });
+
+    function insertFavorite() {
+        //点击收藏按钮验证用户是否已登录
+        var rid = getParameter("rid");
+        $.get("user/findOne", {rid: rid}, function (data) {
+            if (data) {
+                //已登录增加收藏数据
+                $.get("route/insertFavorite", {rid: rid}, function () {
+                    alert("收藏成功！")
+                    //刷新页面
+                    location.reload();
+                })
+            } else {
+                alert("您尚未登录，请先登录！");
+                location.href = "/travel/login.html";
+            }
+        })
+    }
 </script>
 </body>
 
