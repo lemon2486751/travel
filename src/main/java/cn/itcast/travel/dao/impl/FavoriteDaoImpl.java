@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author lemon
@@ -34,10 +35,22 @@ public class FavoriteDaoImpl implements FavoriteDao {
         Favorite favorite = null;
         try {
             String sql = "select * from tab_favorite where rid=? and uid=?";
-            favorite = template.queryForObject(sql,new BeanPropertyRowMapper<>(Favorite.class),rid,uid);
+            favorite = template.queryForObject(sql, new BeanPropertyRowMapper<>(Favorite.class), rid, uid);
         } catch (DataAccessException e) {
             System.out.println("数据查询为null，线路未被收藏");
         }
         return favorite;
+    }
+
+    @Override
+    public List<Integer> findAll(int uid, int start, int pageSize) {
+        String sql = "select rid from tab_favorite where uid = ? limit ?,?";
+        return template.queryForList(sql,Integer.class, uid, start, pageSize);
+    }
+
+    @Override
+    public int findTotal(int uid) {
+        String sql = "select count(*) from tab_favorite where uid = ?";
+        return template.queryForObject(sql, Integer.class, uid);
     }
 }

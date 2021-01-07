@@ -1,6 +1,9 @@
 package cn.itcast.travel.dao;
 
 import cn.itcast.travel.domain.Favorite;
+import cn.itcast.travel.domain.PageBean;
+
+import java.util.List;
 
 /**
  * @author lemon
@@ -25,4 +28,20 @@ public interface FavoriteDao {
      * @return
      */
     Favorite findData(int rid, int uid);
+
+    /**
+     * 根据uid分页查询rid集合
+     * @param uid
+     * @param start
+     * @param pageSize
+     * @return
+     */
+    List<Integer> findAll(int uid,int start,int pageSize);
+
+    /**
+     * 查询该用户下所有收藏线路条数
+     * @param uid
+     * @return
+     */
+    int findTotal(int uid);
 }
